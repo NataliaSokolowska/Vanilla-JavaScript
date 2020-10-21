@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <label for="text">Enter your text below.</label>
+    <textarea id="text"></textarea>
+
+    <p>You've written <strong><span id="word-count">0</span> words</strong> and <strong><span
+                id="character-count">0</span>
+            characters</strong>.</p>
+
+    <script>
+
+        function countAll(e) {
+            const textCounter = document.querySelector('#character-count'),
+                textInput = document.querySelector('#text').value,
+                wordCounter = document.querySelector('#word-count'),
+                regexCountWords = new RegExp(/\b\W+\b/),
+                wordsArray = textInput.split(regexCountWords).filter(function (word) { return word != '' });
+
+            if (!e.target.matches('#text')) return;
+
+            countText(textCounter, textInput);
+            countWord(wordCounter, wordsArray)
+
+        }
+
+        function countText(textCounter, textInput) {
+            textCounter.textContent = textInput.length;
+        }
+
+        function countWord(wordCounter, wordsArray) {
+            wordCounter.textContent = wordsArray.length;
+        }
+
+        document.addEventListener('input', countAll);
+
+    </script>
+</body>
+
+</html>
