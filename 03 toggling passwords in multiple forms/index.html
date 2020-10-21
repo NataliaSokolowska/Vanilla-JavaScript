@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Change Username</h2>
+
+    <p>Enter your username and password to change your username.</p>
+
+    <form>
+        <div>
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username">
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+        </div>
+
+        <div>
+            <label for="show-password">
+                <input type="checkbox" name="show-passwords" id="show-password" data-pw-toggle="#password">
+                Show password
+            </label>
+        </div>
+
+        <p>
+            <button type="submit">Change Username</button>
+        </p>
+    </form>
+
+    <h2>Change Password</h2>
+
+    <p>Enter your current password and new password below.</p>
+
+    <form>
+        <div>
+            <label for="current-password">Current Password</label>
+            <input type="password" name="current-password" id="current-password">
+        </div>
+
+        <div>
+            <label for="new-password">New Password</label>
+            <input type="password" name="new-password" id="new-password">
+        </div>
+
+        <div>
+            <label for="show-passwords">
+                <input type="checkbox" name="show-passwords" id="show-passwords"
+                    data-pw-toggle="#current-password, #new-password">
+                Show passwords
+            </label>
+        </div>
+
+        <p>
+            <button type="submit">Change Passwords</button>
+        </p>
+    </form>
+    <script scr="https://polyfill.io/v3/polyfill.min.js?features=Array.from"></script>
+
+    <script>
+        /* const passwordUsername = document.querySelector('[id="password"]'),
+            passwordsSecondForm = Array.prototype.slice.call(document.querySelectorAll('form:nth-of-type(2) input[type="password"]'));
+
+        function toggleVisibilityPassword(input, index) {
+            let inputType = index.checked ? 'text' : 'password';
+            input.setAttribute('type', inputType);
+        }
+
+        window.addEventListener('click', e => {
+            if (e.target.matches('#show-password')) {
+                toggleVisibilityPassword(passwordUsername, e.target)
+
+            } else if (e.target.matches('#show-passwords')) {
+                passwordsSecondForm.forEach(oneInput => {
+                    toggleVisibilityPassword(oneInput, e.target);
+                });
+            }
+        }) */
+
+        document.addEventListener('click', e => {
+
+            if (!e.target.matches('[data-pw-toggle]')) return;
+
+            var passwords = Array.prototype.slice.call(document.querySelectorAll(event.target.getAttribute('data-pw-toggle')));
+
+            function toggleVisibilityPassword(input, index) {
+                let inputType = index.checked ? 'text' : 'password';
+                input.setAttribute('type', inputType);
+            }
+
+            passwords.forEach(password => {
+                toggleVisibilityPassword(password, e.target);
+            });
+        }, false);
+
+    </script>
+</body>
+
+</html>
