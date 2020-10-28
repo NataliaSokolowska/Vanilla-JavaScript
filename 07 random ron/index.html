@@ -23,7 +23,7 @@
     </p>
     <script>
 
-        let quotes = '';
+        const quote = document.querySelector('#blockquote');
 
         function createQuote(data) {
             return fetch('https://ron-swanson-quotes.herokuapp.com/v2/quotes').then(function (response) {
@@ -33,22 +33,23 @@
                     return Promise.reject(response)
                 }
             }).then(function (data) {
-                console.log('działa', data)
-                quotes = data[0];
+                quote.textContent = data[0];
 
             }).catch(function (err) {
-                console.log('Błąd', err)
+                quote.textContent = 'Ups, dzisiaj nie będzie zartow'
             })
         }
 
-        createQuote(quotes).then(response => {
-            addingQuote();
-        });
-
-        function addingQuote() {
-            const showQuotes = document.querySelector('#blockquote');
-            showQuotes.textContent = quotes;
+        function showQuote(e) {
+            if (!e.target.matches('#randomBtn')) return;
+            createQuote();
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createQuote();
+        }, false);
+
+        document.addEventListener('click', showQuote);
 
     </script>
 </body>
