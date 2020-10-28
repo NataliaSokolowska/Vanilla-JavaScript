@@ -5,26 +5,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .quote {
+            border: 1px solid red;
+            height: 50px;
+        }
+    </style>
+
 </head>
 
+
 <body>
-    <blockquote></blockquote>
+    <blockquote id="blockquote" class="quote"></blockquote>
 
     <p>
-        <button>More Ron</button>
+        <button id="randomBtn">More Ron</button>
     </p>
     <script>
-        fetch('https://ron-swanson-quotes.herokuapp.com/v2/quotes').then(function (response) {
-            if (response.ok) {
-                return response.json();
-            } else {
-                return Promise.reject(response)
-            }
-        }).then(function (data) {
-            console.log(data)
-        }).catch(function (err) {
-            console.log('Błąd', err)
-        })
+
+        let quotes = '';
+
+        function createQuote(data) {
+            return fetch('https://ron-swanson-quotes.herokuapp.com/v2/quotes').then(function (response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return Promise.reject(response)
+                }
+            }).then(function (data) {
+                console.log('działa', data)
+                quotes = data[0];
+
+            }).catch(function (err) {
+                console.log('Błąd', err)
+            })
+        }
+
+        createQuote(quotes).then(response => {
+            addingQuote();
+        });
+
+        function addingQuote() {
+            const showQuotes = document.querySelector('#blockquote');
+            showQuotes.textContent = quotes;
+        }
+
     </script>
 </body>
 
