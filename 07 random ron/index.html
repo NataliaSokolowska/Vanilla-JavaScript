@@ -6,9 +6,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        .wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .image {
+            max-width: 100%;
+            height: 300px;
+            margin: 20px;
+        }
+
         .quote {
-            border: 1px solid red;
-            height: 50px;
+            border: 2px solid #1E58FF;
+            height: 100%;
+            padding: 10px 20px;
+            font-style: italic;
+            margin: 20px;
+        }
+
+        .btn {
+            font-size: 10px;
+            text-decoration: none;
+            padding: 7px 12px;
+            font-weight: 500;
+            background: none;
+            border: 2px solid #1E58FF;
+            color: #1E58FF;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #1E58FF;
+            color: #fff;
         }
     </style>
 
@@ -16,11 +62,13 @@
 
 
 <body>
-    <blockquote id="blockquote" class="quote"></blockquote>
+    <div class="wrapper">
+        <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2016/10/17/11/ron-swanson.jpg"
+            alt="Ron Swanson" class="image">
+        <blockquote class="quote">"<span id="blockquote"></span>"</blockquote>
+        <button id="randomBtn" class="btn">More Ron</button>
+    </div>
 
-    <p>
-        <button id="randomBtn">More Ron</button>
-    </p>
     <script>
 
         const quote = document.querySelector('#blockquote');
