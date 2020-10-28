@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <blockquote></blockquote>
+
+    <p>
+        <button>More Ron</button>
+    </p>
+    <script>
+        fetch('https://ron-swanson-quotes.herokuapp.com/v2/quotes').then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return Promise.reject(response)
+            }
+        }).then(function (data) {
+            console.log(data)
+        }).catch(function (err) {
+            console.log('Błąd', err)
+        })
+    </script>
+</body>
+
+</html>
