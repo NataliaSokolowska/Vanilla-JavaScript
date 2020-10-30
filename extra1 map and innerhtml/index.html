@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        var wizards = ['Hermione', 'Neville', 'Gandalf', 'Radagast'];
+        var app = document.querySelector('#app');
+
+        app.innerHTML = '<ul>' + wizards.map(function (wizard) {
+            return '<li>' + wizard + '</li>';
+        }).join('') + '</ul>';
+
+    </script>
