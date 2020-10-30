@@ -72,10 +72,10 @@
     <script>
 
         const quoteSpan = document.querySelector('#blockquote');
-        const quoteArray = [];
+        let quotesArray = [];
 
-        function createQuote(data) {
-            return fetch('https://ron-swanson-quotes.herokuapp.com/v2/quotes').then(function (response) {
+        var createQuote = function () {
+            fetch('https://ron-swanson-quotes.herokuapp.com/v2/quotes').then(function (response) {
                 if (response.ok) {
                     return response.json();
                 } else {
@@ -83,16 +83,23 @@
                 }
             }).then(function (data) {
 
-                if (quoteArray.indexOf(data[0]) === -1) {
-                    quoteArray.push(data[0]);
+                if (quotesArray.indexOf(data[0]) > -1) {
+                    createQuote();
+                    return;
                 }
 
-                quoteSpan.textContent = quoteArray[Math.floor(Math.random() * quoteArray.length)];
+                quoteSpan.textContent = data[0];
+                quotesArray.push(data[0]);
+                console.log(quotesArray.length)
+
+                if (quotesArray.length > 49) {
+                    quotesArray = [];
+                }
 
             }).catch(function (err) {
-                quoteSpan.textContent = 'Ups, dzisiaj nie będzie zartow'
-            })
-        }
+                quoteSpan.textContent = 'Ups, no jokes today'
+            });
+        };
 
         function showQuote(e) {
             if (!e.target.matches('#randomBtn')) return;
@@ -101,7 +108,7 @@
 
         createQuote();
 
-        document.addEventListener('click', showQuote);
+        document.addEventListener('click', showQuote, false);
 
     </script>
 </body>
