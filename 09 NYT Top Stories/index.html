@@ -26,15 +26,15 @@
 
                 stories.push(data.results)
 
-                app.innerHTML = stories.map(function (article) {
-                    console.log(article)
+                stories.map(function (article) {
 
-                    return '<li>' + article + '</li>';
-                }).join('') + '</ul>';
-
+                    app.innerHTML = '<h2>Lists of books:</h2>' + '<ul>' + article.map(function (item) {
+                        return "<a href='" + item.url + "'>" + '<li>' + 'Title: ' + item.title + '</li>' + '</a >';
+                    }).join('') + '</ul>';
+                })
 
             }).catch(function (err) {
-
+                app.innerHTML = '<p>Sorry, something bad happen</p>'
             });
         }
 
