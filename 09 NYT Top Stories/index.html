@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        const app = document.querySelector('#app');
+
+        let stories = [];
+
+        function catchStories() {
+            return fetch('https://api.nytimes.com/svc/topstories/v2/books.json?api-key=YphPrM8q9ieC75AJbkpJxED1XUCaoHy6').then(function (response) {
+
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return Promise.reject(response)
+                }
+            }).then(function (data) {
+
+                stories.push(data.results)
+
+                app.innerHTML = stories.map(function (article) {
+                    console.log(article)
+
+                    return '<li>' + article + '</li>';
+                }).join('') + '</ul>';
+
+
+            }).catch(function (err) {
+
+            });
+        }
+
+        catchStories();
+    </script>
+</body>
+
+</html>
