@@ -5,6 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        li {
+            padding-bottom: 5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+            cursor: pointer;
+        }
+
+        a:hover {
+            color: #323232;
+        }
+
+        .article-title {
+            font-weight: bold;
+            color: #0073E5;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,9 +64,9 @@
 
                 stories.map(function (article) {
 
-                    app.innerHTML = '<h2>Lists of books:</h2>' + '<ul>' + article.map(function (item) {
-                        return "<a href='" + item.url + "'>" + '<li>' + 'Title: ' + item.title + '</li>' + '</a >';
-                    }).join('') + '</ul>';
+                    app.innerHTML = '<h2>Lists of books:</h2>' + '<ol>' + article.map(function (item) {
+                        return '<li>' + "<a href='" + item.url + "'>" + '<span class="article-title">Title: </span>' + item.title + '</a >' + '</li>';
+                    }).join('') + '</ol>';
                 })
 
             }).catch(function (err) {
