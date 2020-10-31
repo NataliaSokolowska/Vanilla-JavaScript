@@ -76,6 +76,53 @@
         }
 
         catchStories();
+
+        /* rozwianie oryginalne - w api nytimes w data.results istnieje
+        article i z niego mozna od razu dostac sie do artykułow
+
+        // Get the app
+        var app = document.querySelector('#app');
+
+        // Store API key to a variable for easier access
+        var apiKey = '1234abcd';
+
+
+        //Render articles into the DOM
+        // @param  {Array} articles The articles to render
+
+        var render = function (articles) {
+
+            // Create a new array of markup strings with array.map(), then
+            // Combine them into one string with array.join(), then
+            // Insert them into the DOM with innerHTML
+            app.innerHTML = articles.map(function (article) {
+                var html =
+                    '<article>' +
+                    '<h2><a href="' + article.url + '">' + article.title + '</a></h2>' +
+                    '<p>' + article.byline + '</p>' +
+                    '<p>' + article.abstract + '</p>' +
+                    '</article>';
+                return html;
+            }).join('');
+
+        };
+
+        // Get articles
+        fetch('https://api.nytimes.com/svc/topstories/v2/home.json?api-key=' + apiKey).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return Promise.reject(response);
+            }
+        }).then(function (data) {
+
+            // Render them into the DOM
+            render(data.results);
+
+        }).catch(function (error) {
+            console.log('Something went wrong:', error);
+        }); */
+
     </script>
 </body>
 
