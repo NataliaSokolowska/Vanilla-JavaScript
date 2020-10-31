@@ -47,11 +47,12 @@
 
     <script>
         const app = document.querySelector('#app');
+        const apiKey = 'YphPrM8q9ieC75AJbkpJxED1XUCaoHy6';
 
         let stories = [];
 
         function catchStories() {
-            return fetch('https://api.nytimes.com/svc/topstories/v2/books.json?api-key=YphPrM8q9ieC75AJbkpJxED1XUCaoHy6').then(function (response) {
+            return fetch('https://api.nytimes.com/svc/topstories/v2/books.json?api-key=' + apiKey).then(function (response) {
 
                 if (response.ok) {
                     return response.json();
