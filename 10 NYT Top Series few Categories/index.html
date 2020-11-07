@@ -46,19 +46,17 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default%2Cfetch"></script>
 
     <script>
-        const app = document.querySelector('#app');
-        const apiKey = 'YphPrM8q9ieC75AJbkpJxED1XUCaoHy6';
+        const app = document.querySelector('#app'),
+            apiKey = 'YphPrM8q9ieC75AJbkpJxED1XUCaoHy6',
+            sections = ['books', 'health', 'politics'],
+            numberOfArticles = 3;
 
-
-        function showArticles(articles) {
-
-            app.innerHTML = '<h2>Lists of books:</h2>' + '<ol>' + articles.map(function (item) {
-                return '<li>' + "<a href='" + item.url + "'>" + '<span class="article-title">Title: </span>' + item.title + '</a >' + '</li>';
-            }).join('') + '</ol>';
+        function getOnlyThree(articles) {
+            return articles.slice(0, numberOfArticles);
         }
 
-        function catchStories() {
-            return fetch('https://api.nytimes.com/svc/topstories/v2/books.json?api-key=' + apiKey).then(function (response) {
+        function catchStories(section) {
+            return fetch('https://api.nytimes.com/svc/topstories/v2/' + section + '.json?api-key=' + apiKey).then(function (response) {
 
                 if (response.ok) {
                     return response.json();
@@ -67,14 +65,29 @@
                 }
             }).then(function (data) {
 
-                showArticles(data.results);
+                let onlyThree = getOnlyThree(data.results);
+                showArticles(onlyThree, section);
 
             }).catch(function (err) {
                 app.innerHTML = '<p>Sorry, something bad happened</p>'
             });
         }
 
-        catchStories();
+        function showArticles(articles, section) {
+            app.innerHTML += '<h2>List of article about ' + section + '</h2>' + articles.map(function (article) {
+                var html =
+                    '<article>' +
+                    '<h3><a href="' + article.url + '">' + article.title + '</a></h3>' +
+                    '<p>' + article.byline + '</p>' +
+                    '<p>' + article.abstract + '</p>' +
+                    '</article>';
+                return html;
+            }).join('');
+        }
+
+        sections.forEach(function (section) {
+            catchStories(section);
+        });
 
     </script>
 </body>
