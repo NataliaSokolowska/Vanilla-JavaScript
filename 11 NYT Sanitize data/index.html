@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        li {
+            padding-bottom: 5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+            cursor: pointer;
+        }
+
+        a:hover {
+            color: #323232;
+        }
+
+        .article-title {
+            font-weight: bold;
+            color: #0073E5;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default%2Cfetch"></script>
+
+    <script>
+        const app = document.querySelector('#app'),
+            apiKey = 'YphPrM8q9ieC75AJbkpJxED1XUCaoHy6',
+            sections = ['books', 'health', 'politics'],
+            numberOfArticles = 3;
+
+        function getOnlyThree(articles) {
+            return articles.slice(0, numberOfArticles);
+        }
+
+        function sanitizeHTML(str) {
+            return str.replace(/[^\w. ]/gi, function (c) {
+                return '&#' + c.charCodeAt(0) + ';';
+            });
+        };
+
+        function catchStories(section) {
+            return fetch('https://api.nytimes.com/svc/topstories/v2/' + section + '.json?api-key=' + apiKey).then(function (response) {
+
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return Promise.reject(response)
+                }
+            }).then(function (data) {
+
+                let onlyThree = getOnlyThree(data.results);
+                showArticles(onlyThree, section);
+
+            }).catch(function (err) {
+                app.innerHTML = '<p>Sorry, something bad happened</p>'
+            });
+        }
+
+        function showArticles(articles, section) {
+            app.innerHTML += '<h2>List of article about ' + section + '</h2>' + articles.map(function (article) {
+                var html =
+                    '<article>' +
+                    '<h3><a href="' + sanitizeHTML(article.url) + '">' + sanitizeHTML(article.title) + '</a></h3>' +
+                    '<p>' + sanitizeHTML(article.byline) + '</p>' +
+                    '<p>' + sanitizeHTML()article.abstract + '</p>' +
+                        '</article>';
+                return html;
+            }).join('');
+        }
+
+        sections.forEach(function (section) {
+            catchStories(section);
+        });
+
+    </script>
+</body>
+
+</html>
