@@ -10,29 +10,54 @@
             display: grid;
             grid-template-columns: auto auto auto;
             text-align: center;
+            grid-gap: 5px;
         }
 
         .grid {
+            justify-items: center;
+            align-items: center;
+            display: inline-grid;
             min-height: 6em;
             padding: 1em;
+            border: 1px solid #000;
+            border-top: 1px solid black;
+            border-right: 1px solid black;
         }
 
         img {
             height: auto;
             max-width: 100%;
+            -webkit-animation: spin 4s linear infinite;
+            -moz-animation: spin 4s linear infinite;
+            animation: spin 4s linear infinite;
+        }
+
+        @-moz-keyframes spin {
+            100% {
+                -moz-transform: rotate(360deg);
+            }
+        }
+
+        @-webkit-keyframes spin {
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
         }
     </style>
+
 </head>
 
 <body>
-    <div class="row">
-        <div class="grid">1</div>
-        <div class="grid">2</div>
-        <div class="grid">3</div>
-        <div class="grid">4</div>
-        <div class="grid">5</div>
-        <div class="grid">6</div>
-    </div>
+    <div id="monsterGrid"></div>
+    <br>
+    <div id="app"></div>
     <script>
         var monsters = [
             'monster1',
@@ -48,6 +73,79 @@
             'monster11',
             'sock'
         ];
+        //var monsterGrid = document.querySelector('#monsterGrid');
+
+        function shuffle(array) {
+
+            var currentIndex = array.length;
+            var temporaryValue, randomIndex;
+
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
+
+        };
+
+        /*   function makeGrid() {
+               for (var i = 0; i < 3; i++) {
+                   for (var j = 0; j < 2; j++) {
+                       var box = document.createElement('div');
+                       box.className = "grid";
+                       monsterGrid.appendChild(box);
+                   }
+               }
+               addMonster();
+           } */
+
+        function addMonster() {
+
+            /*  var shuffledArrayMonsters = shuffle(monsters.slice());
+              var grid = document.querySelectorAll('.grid');
+  
+              grid.forEach(function (item) {
+                  item.innerHTML = '<p>' + monster + '</p>';
+                  item.innerHTML += '<img src="../img/"' + '' + '/>';
+  
+                  shuffledArrayMonsters.forEach(function (monster) {
+                      console.log(monster)
+                  })
+              }) */
+
+
+            var shuffledArrayMonsters = shuffle(monsters.slice());
+            var app = document.querySelector('#app');
+
+            app.innerHTML = '<div class="row">' + shuffledArrayMonsters.map(function (monster) {
+                var html =
+                    '<div class="grid">' +
+                    '<p>My name is: ' + monster.charAt(0).toUpperCase() + monster.slice(1) + '</p>' + '<br>' +
+                    '<img alt="' + monster + '" src="img/' + monster + '.svg">' +
+                    '</div>';
+                return html;
+            }).join('') + '</div>';
+
+        }
+
+        addMonster();
+
+        /*   app.innerHTML = '<div class="row">' + monsters.map(function (monster) {
+               var html =
+                   '<div class="grid">' +
+                   '<img alt="' + monster + '" src="' + monster + '.svg">' +
+                   '</div>';
+               return html;
+           }).join('') + '</div>'; */
+
     </script>
 </body>
 
