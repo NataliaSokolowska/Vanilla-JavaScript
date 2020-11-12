@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .row {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            text-align: center;
+            grid-gap: 5px;
+        }
+
+        .grid {
+            justify-items: center;
+            align-items: center;
+            display: inline-grid;
+            min-height: 6em;
+            padding: 1em;
+            border: 1px solid #000;
+            border-top: 1px solid black;
+            border-right: 1px solid black;
+            background-image: url("img/door.svg");
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        p {
+            display: none;
+        }
+
+        img.monster-image {
+            height: auto;
+            max-width: 100%;
+            display: none;
+        }
+
+        img.door-image {
+            height: auto;
+            max-width: 100%;
+            display: block;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h2>Znajdź wszystkie potwory przed skarpetą!</h2>
+    <h3>Jeśli klikniesz w skarpetę - przegrywasz!</h3>
+    <div id="app"></div>
+    <script>
+        var monsters = [
+            'monster1',
+            'monster2',
+            'monster3',
+            'monster4',
+            'monster5',
+            'monster6',
+            'monster7',
+            'monster8',
+            'monster9',
+            'monster10',
+            'monster11',
+            'sock'
+        ];
+
+        function shuffle(array) {
+
+            var currentIndex = array.length;
+            var temporaryValue, randomIndex;
+
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
+        };
+
+        function addMonster() {
+
+            var shuffledArrayMonsters = shuffle(monsters.slice());
+            var app = document.querySelector('#app');
+
+            app.innerHTML = '<div class="row">' + shuffledArrayMonsters.map(function (monster) {
+                var html =
+                    '<div class="grid">' +
+                    '<p>My name is: ' + monster.charAt(0).toUpperCase() + monster.slice(1) + '</p>' + '<br>' +
+                    '<img class="monster-image" alt="' + monster + '" src="img/' + monster + '.svg">' +
+                    '</div>';
+                return html;
+            }).join('') + '</div>';
+        }
+
+        function resetGame(e) {
+            var element = e.target;
+            var sockElement = element.querySelector('img[alt="sock"]');
+
+            if (sockElement) {
+
+                setTimeout(function () {
+                    alert('Przegrałeś. Gramy jeszcze raz?')
+                    addMonster()
+                }, 10)
+            }
+        }
+
+        function showMonster(e) {
+            if (!e.target.matches('.grid')) return;
+
+
+            var element = e.target;
+            var divGrid = element.closest('.grid');
+            var monsterImage = element.querySelector('img');
+
+
+            var monsterBck = divGrid.currentStyle || window.getComputedStyle(divGrid, false);
+            var bckUrl = monsterBck.backgroundImage.slice(4, -1).replace(/"/g, "");
+
+
+            monsterImage.style.display = 'block';
+            element.style.backgroundImage = 'none';
+        }
+
+
+        document.addEventListener("click", function (e) {
+            resetGame(e);
+            showMonster(e);
+
+        });
+        addMonster();
+
+    </script>
+</body>
+
+</html>
