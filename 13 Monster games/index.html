@@ -23,8 +23,8 @@
             justify-items: center;
             align-items: center;
             display: inline-grid;
-            min-height: 150px;
-            padding: 1em;
+            min-height: 100px;
+            height: 100px;
             border: 1px solid #000;
             border-top: 1px solid black;
             border-right: 1px solid black;
@@ -43,10 +43,11 @@
 
         p {
             display: none;
+            margin: 5px auto;
         }
 
         img.monster-image {
-            height: auto;
+            height: 60px;
             max-width: 100%;
             display: none;
             margin: 0 auto;
@@ -80,6 +81,9 @@
             'sock'
         ];
 
+        var count = 0;
+        var app = document.querySelector('#app');
+
         function shuffle(array) {
 
             var currentIndex = array.length;
@@ -103,7 +107,6 @@
         function addMonster() {
 
             var shuffledArrayMonsters = shuffle(monsters.slice());
-            var app = document.querySelector('#app');
 
             app.innerHTML =
                 '<h2>Znajdź wszystkie potwory przed skarpetą!</h2>' +
@@ -112,7 +115,7 @@
                     var html =
                         '<div class="grid" aria-live="polite">' +
                         '<button data-monster-id="' + index + '">' +
-                        '<p>My name is: ' + monster.charAt(0).toUpperCase() + monster.slice(1) + '</p>' + '<br>' +
+                        '<p>My name is: ' + monster.charAt(0).toUpperCase() + monster.slice(1) + '</p>' +
                         '<img class="monster-image" alt="' + monster + '" src="img/' + monster + '.svg">' +
                         '</button>' +
                         '</div>';
@@ -127,12 +130,12 @@
             var element = e.target;
 
             var sockElement = element.querySelector('img[alt="sock"]');
-            console.log(sockElement)
 
             if (sockElement) {
 
                 setTimeout(function () {
                     alert('Przegrałeś. Gramy jeszcze raz?')
+                    count = 0;
                     addMonster()
                 }, 10)
             } else {
@@ -140,21 +143,40 @@
             }
         }
 
+        function endGame(countOfMonsters) {
+
+            console.log(count)
+
+            if (count == countOfMonsters - 1) {
+                app.innerHTML =
+                    '<h2 class="winner-header">Mistrzuniu!</h2>' +
+                    '<h3 class="winner-header">Wygrałeś!</h3>' +
+                    '<button id="oneMoreTime" class="winner-btn">Kliknij w button i zaczniemy jeszcze raz</button>'
+                var startBtn = document.querySelector('#oneMoreTime');
+
+                startBtn.addEventListener("click", function (e) {
+                    addMonster()
+                })
+                count = 0;
+            }
+        }
+
         function showMonster(e) {
+            var element = e.target,
+                monsterImage = element.querySelector('img'),
+                monsterName = element.querySelector('p'),
+                door = element.closest('.grid'),
+                countOfMonsters = document.querySelectorAll('.grid').length;
 
             if (!e.target.matches('[data-monster-id]')) return;
+            count++;
+            endGame(countOfMonsters);
 
-            var element = e.target;
-
-            var monsterImage = element.querySelector('img');
-            var monsterName = element.querySelector('p');
-            var door = element.closest('.grid');
 
             monsterImage.style.display = 'block';
             monsterName.style.display = "block"
             door.style.backgroundImage = 'none';
         }
-
 
         document.addEventListener("click", function (e) {
             resetGame(e);
