@@ -6,15 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
         *,
         *::before,
         *::after {
             box-sizing: border-box;
         }
 
+        body {
+            background: #F4EDE8;
+            color: #323232;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .wrapper {
+            height: 95vh;
+            width: 90vw;
+            margin: 0 auto;
+        }
+
         .row {
             display: grid;
-            grid-template-columns: auto auto auto;
+            grid-template-columns: repeat(auto-fill, minmax(29vw, 1fr));
             text-align: center;
             grid-gap: 5px;
         }
@@ -25,13 +39,23 @@
             display: inline-grid;
             min-height: 100px;
             height: 100px;
-            border: 1px solid #000;
-            border-top: 1px solid black;
-            border-right: 1px solid black;
+            border: 1px solid #323232;
+            border-top: 1px solid#323232;
+            border-right: 1px solid#323232;
             background-image: url("img/door.svg");
             background-position: center;
             background-size: auto;
             background-repeat: no-repeat;
+        }
+
+        h1,
+        h2,
+        h3 {
+            text-align: center;
+        }
+
+        .app-title {
+            color: #19924E;
         }
 
         button[data-monster-id] {
@@ -42,8 +66,10 @@
         }
 
         p {
+            color: #323232;
             display: none;
             margin: 5px auto;
+            font-family: 'Montserrat', sans-serif;
         }
 
         img.monster-image {
@@ -58,13 +84,49 @@
             max-width: 100%;
             display: block;
         }
+
+        img.sock-image {
+            display: block;
+            height: 100px;
+            margin: 20px auto;
+        }
+
+        img.fireworks-image {
+            width: 50%;
+            margin: 18px auto;
+            display: block;
+        }
+
+        .finish-btn {
+            display: block;
+            padding: 0.8em 1.2em;
+            margin: 0 auto;
+            border: 0.16em solid rgba(255, 255, 255, 0);
+            border-radius: 2em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+            color: #FFFFFF;
+            text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .winner-btn {
+            background: #19924E;
+        }
+
+        .lost-btn {
+            background: #4E1992
+        }
     </style>
 
 </head>
 
 <body>
 
-    <div id="app"></div>
+    <div id="app" class="wrapper"></div>
     <script>
         var monsters = [
             'monster1',
@@ -107,8 +169,10 @@
         function addMonster() {
 
             var shuffledArrayMonsters = shuffle(monsters.slice());
+            console.log(count)
 
             app.innerHTML =
+                '<h1 class="app-title">Potwory za drzwiami</h1>' +
                 '<h2>Znajdź wszystkie potwory przed skarpetą!</h2>' +
                 '<h3>Jeśli klikniesz w skarpetę - przegrywasz!</h3>' +
                 '<div class="row">' + shuffledArrayMonsters.map(function (monster, index) {
@@ -133,11 +197,18 @@
 
             if (sockElement) {
 
-                setTimeout(function () {
-                    alert('Przegrałeś. Gramy jeszcze raz?')
+                app.innerHTML =
+                    '<h2 class="winner-header">Przegrałeś :(</h2>' +
+                    '<img class="sock-image" alt="Sock" src="img/sock.svg">' +
+                    '<button id="startBtn" class="finish-btn lost-btn">Kliknij w button i zaczniemy jeszcze raz</button>'
+
+                var startBtn = document.querySelector('#startBtn');
+
+                startBtn.addEventListener("click", function (e) {
                     count = 0;
                     addMonster()
-                }, 10)
+                })
+
             } else {
                 return
             }
@@ -151,13 +222,15 @@
                 app.innerHTML =
                     '<h2 class="winner-header">Mistrzuniu!</h2>' +
                     '<h3 class="winner-header">Wygrałeś!</h3>' +
-                    '<button id="oneMoreTime" class="winner-btn">Kliknij w button i zaczniemy jeszcze raz</button>'
-                var startBtn = document.querySelector('#oneMoreTime');
+                    '<img class="fireworks-image" alt="fireworks" src="img/fireworks.gif">' +
+                    '<button id="startBtn" class="finish-btn winner-btn">Kliknij w button i zaczniemy jeszcze raz</button>'
+
+                var startBtn = document.querySelector('#startBtn');
 
                 startBtn.addEventListener("click", function (e) {
+                    count = 0;
                     addMonster()
                 })
-                count = 0;
             }
         }
 
