@@ -169,7 +169,6 @@
         function addMonster() {
 
             var shuffledArrayMonsters = shuffle(monsters.slice());
-            console.log(count)
 
             app.innerHTML =
                 '<h1 class="app-title">Potwory za drzwiami</h1>' +
@@ -216,8 +215,6 @@
 
         function endGame(countOfMonsters) {
 
-            console.log(count)
-
             if (count == countOfMonsters - 1) {
                 app.innerHTML =
                     '<h2 class="winner-header">Mistrzuniu!</h2>' +
@@ -244,7 +241,6 @@
             if (!e.target.matches('[data-monster-id]')) return;
             count++;
             endGame(countOfMonsters);
-
 
             monsterImage.style.display = 'block';
             monsterName.style.display = "block"
