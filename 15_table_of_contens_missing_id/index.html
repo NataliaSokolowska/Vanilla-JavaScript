@@ -19,16 +19,12 @@
             articleAboutCat = document.querySelectorAll('h2'),
             articles = Array.prototype.slice.call(articleAboutCat);
 
-        if (articleAboutCat.id == 'undefined') {
-
-        }
-
         tableOfContents.innerHTML =
             '<div class="container">' + '<h2>Table of contents</h2>' + '<ul>' + articles.map(function (article, index) {
                 var articleId = article.id
 
                 if (articleId.length < 1) {
-                    articleId = article.textContent;
+                    articleId = article.textContent.replace(/[^a-z0-9]+/gi, '-');
                 }
                 var html =
                     '<li>' +
