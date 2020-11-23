@@ -143,13 +143,13 @@
             'sock'
         ];
 
-        var count = 0;
-        var app = document.querySelector('#app');
+        var count = 0,
+            app = document.querySelector('#app');
 
         function shuffle(array) {
 
-            var currentIndex = array.length;
-            var temporaryValue, randomIndex;
+            var currentIndex = array.length,
+                temporaryValue, randomIndex;
 
             // While there remain elements to shuffle...
             while (0 !== currentIndex) {
@@ -190,12 +190,10 @@
 
             if (!e.target.matches('[data-monster-id]')) return;
 
-            var element = e.target;
-
-            var sockElement = element.querySelector('img[alt="sock"]');
+            var element = e.target,
+                sockElement = element.querySelector('img[alt="sock"]');
 
             if (sockElement) {
-
                 app.innerHTML =
                     '<h2 class="winner-header">Przegrałeś :(</h2>' +
                     '<img class="sock-image" alt="Sock" src="img/sock.svg">' +
