@@ -25,6 +25,7 @@
 
                 if (articleId.length < 1) {
                     articleId = article.textContent.replace(/[^a-z0-9]+/gi, '-');
+                    article.setAttribute('id', articleId);
                 }
                 var html =
                     '<li>' +
