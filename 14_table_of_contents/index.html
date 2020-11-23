@@ -11,10 +11,10 @@
     <div id="table-of-contents"></div>
 
     <h2 id="cat-o-nine-tails">Cat O'Nine Tails</h2>
-    <p data-cat-p id="0">Cat o'nine tails Pieces of Eight swab carouser tackle. Pink hornswaggle gabion Sea Legs Davy
+    <p>Cat o'nine tails Pieces of Eight swab carouser tackle. Pink hornswaggle gabion Sea Legs Davy
         Jones'
         Locker.</p>
-    <p data-cat-p id="1">Hang the jib Nelsons folly trysail ahoy prow. Transom strike colors scallywag aft league.</p>
+    <p>Hang the jib Nelsons folly trysail ahoy prow. Transom strike colors scallywag aft league.</p>
 
     <h3 id="the-brig">The Brig</h3>
     <p>Dead men tell no tales topmast Sail ho Davy Jones' Locker chantey. Wherry fluke pillage rope's end brig.</p>
@@ -22,20 +22,18 @@
 
 <script>
     var tableOfContents = document.querySelector('#table-of-contents'),
-        articleAboutCat = document.querySelectorAll('[data-cat-p]'),
+        articleAboutCat = document.querySelectorAll('h2'),
         articles = Array.prototype.slice.call(articleAboutCat);
 
     tableOfContents.innerHTML =
-        '<div class="container">' + '<h2>Table of contents</h2>' + '<ul>' + articles.map(function (article, index) {
-            console.log(article.innerHTML)
+        '<div class="container">' + '<h2>Table of contents</h2>' + '<ul>' + articles.map(function (article) {
             var html =
                 '<li>' +
-                '<a href="#' + index + '">' + article.innerHTML + '</a>' +
+                '<a href="#' + article.id + '">' + article.innerHTML + '</a>' +
                 '</li>'
             return html;
         }).join('') + '</ul>' + '</div>';
 
-    //console.log(articles)
 </script>
 
 </html>
