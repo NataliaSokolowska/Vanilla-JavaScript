@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="table-of-contents"></div>
+
+    <h2>Cat O'Nine Tails</h2>
+    <p>Cat o'nine tails Pieces of Eight swab carouser tackle. Pink hornswaggle gabion Sea Legs Davy Jones' Locker.</p>
+    <p>Hang the jib Nelsons folly trysail ahoy prow. Transom strike colors scallywag aft league.</p>
+
+    <script>
+        var tableOfContents = document.querySelector('#table-of-contents'),
+            articleAboutCat = document.querySelectorAll('h2'),
+            articles = Array.prototype.slice.call(articleAboutCat);
+
+        if (articleAboutCat.id == 'undefined') {
+
+        }
+
+        tableOfContents.innerHTML =
+            '<div class="container">' + '<h2>Table of contents</h2>' + '<ul>' + articles.map(function (article, index) {
+                var articleId = article.id
+
+                if (articleId.length < 1) {
+                    articleId = article.textContent;
+                }
+                var html =
+                    '<li>' +
+                    '<a href="#' + articleId + '">' + article.textContent + '</a>' +
+                    '</li>'
+                return html;
+            }).join('') + '</ul>' + '</div>';
+
+    </script>
+</body>
+
+</html>
