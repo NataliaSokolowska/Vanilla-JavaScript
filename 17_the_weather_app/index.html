@@ -46,32 +46,32 @@
         const app = document.querySelector('#app'),
             weatherApiKey = 'aac1b318a3af492ab3f510b8067ee931';
 
-        function showTemperature(weather) {
+        function showTemperature(weather, far) {
 
             if (sessionStorage.getItem("language") === 'pl') {
                 app.innerHTML += '<h2> Twoja lokalizacja to ' + weather.timezone + '</h2>' +
                     '<div class="weather-wrapper">' +
                     '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' + weather.descriptionWeather + '.png">' +
-                    '<p class="weather-box">' + weather.apparentTemperature + '</p>' +
-                    '<p class="weather-box">' + weather.temperature + '</p>' +
-                    '<p class="weather-box">' + weather.sunrise + '</p>' +
-                    '<p class="weather-box">' + weather.sunset + '</p>' +
-                    '<p class="weather-box">' + weather.windSpeed + '</p>' +
-                    '<p class="weather-box">' + weather.windDirection + '</p>' +
-                    '<p class="weather-box">' + weather.humidity + '</p>'
+                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.apparentTemperature + '</p>' +
+                    '<p class="weather-box">' + 'Temperatura aktualna: ' + weather.temperature + '</p>' +
+                    '<p class="weather-box">' + 'Wschód słońca: ' + weather.sunrise + '</p>' +
+                    '<p class="weather-box">' + 'Zachód słońca: ' + weather.sunset + '</p>' +
+                    '<p class="weather-box">' + 'Siła wiatru: ' + weather.windSpeed + '</p>' +
+                    '<p class="weather-box">' + 'Kierunek wiatru: ' + weather.windDirection + '</p>' +
+                    '<p class="weather-box">' + 'Wilgotność: ' + weather.humidity + '</p>'
 
                 '</div>'
             } else {
                 app.innerHTML += '<h2> Your localization ' + weather.timezone + '</h2>' +
                     '<div class="weather-wrapper">' +
                     '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' + weather.descriptionWeather + '.png">' +
-                    '<p class="weather-box">' + weather.apparentTemperature + '</p>' +
-                    '<p class="weather-box">' + weather.temperature + '</p>' +
-                    '<p class="weather-box">' + weather.sunrise + '</p>' +
-                    '<p class="weather-box">' + weather.sunset + '</p>' +
-                    '<p class="weather-box">' + weather.windSpeed + '</p>' +
-                    '<p class="weather-box">' + weather.windDirection + '</p>' +
-                    '<p class="weather-box">' + weather.humidity + '</p>'
+                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.apparentTemperature + '</p>' +
+                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.temperature + '</p>' +
+                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.sunrise + '</p>' +
+                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.sunset + '</p>' +
+                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.windSpeed + '</p>' +
+                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.windDirection + '</p>' +
+                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.humidity + '</p>'
 
                 '</div>'
             }
@@ -101,21 +101,20 @@
                 }
             }).then(function (data) {
 
-                const information = data.data[0];
+                const informations = data.data[0];
 
                 const weather = {
-                    temperature: information.temp,
-                    apparentTemperature: information.app_temp,
-                    sunrise: information.sunrise,
-                    sunset: information.sunset,
-                    timezone: information.timezone,
-                    descriptionWeather: information.weather.icon,
-                    windSpeed: information.wind_spd,
-                    windDirection: information.wind_dir,
-                    humidity: information.rh
+                    temperature: informations.temp,
+                    apparentTemperature: informations.app_temp,
+                    sunrise: informations.sunrise,
+                    sunset: informations.sunset,
+                    timezone: informations.timezone,
+                    descriptionWeather: informations.weather.icon,
+                    windSpeed: informations.wind_spd,
+                    windDirection: informations.wind_dir,
+                    humidity: informations.rh
                 }
-
-                showTemperature(weather)
+                showTemperature(weather);
 
             }).catch(function (err) {
                 app.innerHTML = '<p>Sorry, something bad happened</p>'
@@ -123,19 +122,19 @@
         }
 
         document.addEventListener("click", function (e) {
+            const languageSection = document.querySelector('#lang');
 
             if (e.target.matches('#pl')) {
-                var langApi = 'pl';
+                let langApi = 'pl';
                 sessionStorage.setItem('language', langApi);
-
+                getLocalization(langApi);
+                languageSection.style.display = 'none';
             } else if (e.target.matches('#en')) {
-                var langApi = 'en';
+                let langApi = 'en';
                 sessionStorage.setItem('language', langApi);
-
+                getLocalization(langApi);
+                languageSection.style.display = 'none';
             }
-            const languageSection = document.querySelector('#lang');
-            languageSection.style.display = 'none';
-            getLocalization(langApi);
         });
     </script>
 </body>
