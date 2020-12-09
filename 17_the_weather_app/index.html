@@ -30,6 +30,10 @@
             height: 90vh;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.32/moment-timezone-with-data.min.js"></script>
+
 </head>
 
 <body>
@@ -46,9 +50,11 @@
         const app = document.querySelector('#app'),
             weatherApiKey = 'aac1b318a3af492ab3f510b8067ee931';
 
-        function showTemperature(weather, far) {
+        function showTemperature(weather) {
 
-            var far = (weather.temperature * 9 / 5) + 32;
+            const far = (weather.temperature * 9 / 5) + 32;
+            var zone_name = moment.tz.guess();
+            var timezone = moment.tz(zone_name).zoneAbbr();
 
             if (sessionStorage.getItem("language") === 'pl') {
                 app.innerHTML += '<h2> Twoja lokalizacja to ' + weather.timezone + '</h2>' +
@@ -56,8 +62,8 @@
                     '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' + weather.descriptionWeather + '.png">' +
                     '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.apparentTemperature + ' C ' + '/ ' + far + ' F' + '</p>' +
                     '<p class="weather-box">' + 'Temperatura aktualna: ' + weather.temperature + ' C ' + '/ ' + far + ' F' + '</p>' +
-                    '<p class="weather-box">' + 'Wschód słońca: ' + weather.sunrise + '</p>' +
-                    '<p class="weather-box">' + 'Zachód słońca: ' + weather.sunset + '</p>' +
+                    '<p class="weather-box">' + 'Wschód słońca: ' + (moment.utc(weather.sunrise, 'HH:mm').local().format("hh:mm")) + ' ' + timezone + '</p>' +
+                    '<p class="weather-box">' + 'Zachód słońca: ' + (moment.utc(weather.sunset, 'HH:mm').local().format("hh:mm")) + ' ' + timezone + '</p>' +
                     '<p class="weather-box">' + 'Siła wiatru: ' + weather.windSpeed + '</p>' +
                     '<p class="weather-box">' + 'Kierunek wiatru: ' + weather.windDirection + '</p>' +
                     '<p class="weather-box">' + 'Wilgotność: ' + weather.humidity + '</p>'
@@ -67,13 +73,13 @@
                 app.innerHTML += '<h2> Your localization ' + weather.timezone + '</h2>' +
                     '<div class="weather-wrapper">' +
                     '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' + weather.descriptionWeather + '.png">' +
-                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.apparentTemperature + '</p>' +
-                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.temperature + '</p>' +
-                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.sunrise + '</p>' +
-                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.sunset + '</p>' +
-                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.windSpeed + '</p>' +
-                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.windDirection + '</p>' +
-                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.humidity + '</p>'
+                    '<p class="weather-box">' + 'Feels like: ' + weather.apparentTemperature + ' C ' + '/ ' + far + ' F' + '</p>' +
+                    '<p class="weather-box">' + 'Now is: ' + weather.temperature + ' C ' + '/ ' + far + ' F' + '</p>' +
+                    '<p class="weather-box">' + 'Sunrise: ' + (moment.utc(weather.sunrise, 'HH:mm').local().format("hh:mm")) + ' ' + timezone + '</p>' +
+                    '<p class="weather-box">' + 'Sunset: ' + (moment.utc(weather.sunset, 'HH:mm').local().format("hh:mm")) + ' ' + timezone + '</p>' +
+                    '<p class="weather-box">' + 'Wind speed: ' + weather.windSpeed + '</p>' +
+                    '<p class="weather-box">' + 'Wind direction: ' + weather.windDirection + '</p>' +
+                    '<p class="weather-box">' + 'Humidity: ' + weather.humidity + '</p>'
 
                 '</div>'
             }
