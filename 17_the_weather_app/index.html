@@ -48,12 +48,14 @@
 
         function showTemperature(weather, far) {
 
+            var far = (weather.temperature * 9 / 5) + 32;
+
             if (sessionStorage.getItem("language") === 'pl') {
                 app.innerHTML += '<h2> Twoja lokalizacja to ' + weather.timezone + '</h2>' +
                     '<div class="weather-wrapper">' +
                     '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' + weather.descriptionWeather + '.png">' +
-                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.apparentTemperature + '</p>' +
-                    '<p class="weather-box">' + 'Temperatura aktualna: ' + weather.temperature + '</p>' +
+                    '<p class="weather-box">' + 'Temperatura odczuwalna: ' + weather.apparentTemperature + ' C ' + '/ ' + far + ' F' + '</p>' +
+                    '<p class="weather-box">' + 'Temperatura aktualna: ' + weather.temperature + ' C ' + '/ ' + far + ' F' + '</p>' +
                     '<p class="weather-box">' + 'Wschód słońca: ' + weather.sunrise + '</p>' +
                     '<p class="weather-box">' + 'Zachód słońca: ' + weather.sunset + '</p>' +
                     '<p class="weather-box">' + 'Siła wiatru: ' + weather.windSpeed + '</p>' +
