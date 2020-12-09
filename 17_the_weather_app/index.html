@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .lang-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+
+        }
+
+        .language {
+            cursor: pointer;
+            border: 1px solid #000;
+            margin: 20px 30px;
+            padding: 20px 30px;
+        }
+
+        .app-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="lang" class="lang-wrapper">
+        <p>
+            <span id='pl' class="language">Polish</span> or
+            <span id="en" class="language">English</span>
+        </p>
+    </div>
+    <div id="app" class="app-wrapper"></div>
+
+
+    <script>
+        const app = document.querySelector('#app'),
+            weatherApiKey = 'aac1b318a3af492ab3f510b8067ee931';
+
+        function showTemperature(weather) {
+
+            app.innerHTML += '<h2> Your localization ' + weather.timezone + '</h2>' +
+                '<div class="weather-wrapper">' +
+                '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' + weather.descriptionWeather + '.png">' +
+                '<p class="weather-box">' + weather.apparentTemperature + '</p>' +
+                '<p class="weather-box">' + weather.temperature + '</p>' +
+                '<p class="weather-box">' + weather.sunrise + '</p>' +
+                '<p class="weather-box">' + weather.sunset + '</p>' +
+                '<p class="weather-box">' + weather.windSpeed + '</p>' +
+                '<p class="weather-box">' + weather.windDirection + '</p>' +
+                '<p class="weather-box">' + weather.humidity + '</p>'
+
+            '</div>'
+        }
+
+        function getLocalization(langApi) {
+            return fetch('https://ipapi.co/json/').then(function (response) {
+
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return Promise.reject(response)
+                }
+            }).then(function (data) {
+
+                var userCity = data.city;
+                var userCountry = data.country;
+
+                return fetch('https://api.weatherbit.io/v2.0/current?city=' + userCity + ',' + userCountry + '&key=' + weatherApiKey + '&lang=' + langApi);
+
+            }).then(function (response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return Promise.reject(response);
+                }
+            }).then(function (data) {
+
+                const information = data.data[0];
+
+                const weather = {
+                    temperature: information.temp,
+                    apparentTemperature: information.app_temp,
+                    sunrise: information.sunrise,
+                    sunset: information.sunset,
+                    timezone: information.timezone,
+                    descriptionWeather: information.weather.icon,
+                    windSpeed: information.wind_spd,
+                    windDirection: information.wind_dir,
+                    humidity: information.rh
+                }
+
+                showTemperature(weather)
+
+            }).catch(function (err) {
+                app.innerHTML = '<p>Sorry, something bad happened</p>'
+            });
+        }
+
+        document.addEventListener("click", function (e) {
+
+            if (e.target.matches('#pl')) {
+                var langApi = 'pl';
+                console.log('pl')
+
+            } else if (e.target.matches('#en')) {
+                var langApi = 'en';
+                console.log('en')
+
+            } else {
+                return;
+                console.log('log')
+            }
+            const languageSection = document.querySelector('#lang');
+            languageSection.style.display = 'none';
+            getLocalization(langApi);
+        });
+    </script>
+</body>
+
+</html>
