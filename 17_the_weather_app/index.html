@@ -48,18 +48,34 @@
 
         function showTemperature(weather) {
 
-            app.innerHTML += '<h2> Your localization ' + weather.timezone + '</h2>' +
-                '<div class="weather-wrapper">' +
-                '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' + weather.descriptionWeather + '.png">' +
-                '<p class="weather-box">' + weather.apparentTemperature + '</p>' +
-                '<p class="weather-box">' + weather.temperature + '</p>' +
-                '<p class="weather-box">' + weather.sunrise + '</p>' +
-                '<p class="weather-box">' + weather.sunset + '</p>' +
-                '<p class="weather-box">' + weather.windSpeed + '</p>' +
-                '<p class="weather-box">' + weather.windDirection + '</p>' +
-                '<p class="weather-box">' + weather.humidity + '</p>'
+            if (sessionStorage.getItem("language") === 'pl') {
+                app.innerHTML += '<h2> Twoja lokalizacja to ' + weather.timezone + '</h2>' +
+                    '<div class="weather-wrapper">' +
+                    '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' + weather.descriptionWeather + '.png">' +
+                    '<p class="weather-box">' + weather.apparentTemperature + '</p>' +
+                    '<p class="weather-box">' + weather.temperature + '</p>' +
+                    '<p class="weather-box">' + weather.sunrise + '</p>' +
+                    '<p class="weather-box">' + weather.sunset + '</p>' +
+                    '<p class="weather-box">' + weather.windSpeed + '</p>' +
+                    '<p class="weather-box">' + weather.windDirection + '</p>' +
+                    '<p class="weather-box">' + weather.humidity + '</p>'
 
-            '</div>'
+                '</div>'
+            } else {
+                app.innerHTML += '<h2> Your localization ' + weather.timezone + '</h2>' +
+                    '<div class="weather-wrapper">' +
+                    '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' + weather.descriptionWeather + '.png">' +
+                    '<p class="weather-box">' + weather.apparentTemperature + '</p>' +
+                    '<p class="weather-box">' + weather.temperature + '</p>' +
+                    '<p class="weather-box">' + weather.sunrise + '</p>' +
+                    '<p class="weather-box">' + weather.sunset + '</p>' +
+                    '<p class="weather-box">' + weather.windSpeed + '</p>' +
+                    '<p class="weather-box">' + weather.windDirection + '</p>' +
+                    '<p class="weather-box">' + weather.humidity + '</p>'
+
+                '</div>'
+            }
+
         }
 
         function getLocalization(langApi) {
@@ -110,15 +126,12 @@
 
             if (e.target.matches('#pl')) {
                 var langApi = 'pl';
-                console.log('pl')
+                sessionStorage.setItem('language', langApi);
 
             } else if (e.target.matches('#en')) {
                 var langApi = 'en';
-                console.log('en')
+                sessionStorage.setItem('language', langApi);
 
-            } else {
-                return;
-                console.log('log')
             }
             const languageSection = document.querySelector('#lang');
             languageSection.style.display = 'none';
