@@ -186,7 +186,7 @@
                     '<section class="weather-info">' +
                     '<p class="weather-box">' + svgFellTemp + 'Feels like: ' + weather.apparentTemperature + '&#176;C ' + '/ ' + far + '&#176;F' + '</p>' +
                     '<p class="weather-box">' + svgSunrise + 'Sunrise: ' + (moment.utc(weather.sunrise, 'HH:mm').local().format("HH:mm")) + ' ' + timezone + '</p>' +
-                    '<p class="weather-box">' + svgWindSpeed + 'Wind speed: ' + weather.windSpeed + ' km / h' + '</p > ' +
+                    '<p class="weather-box">' + svgWindSpeed + 'Wind speed: ' + weather.windSpeed + ' km/h' + '</p > ' +
                     '<p class="weather-box">' + svgSunset + 'Sunset: ' + (moment.utc(weather.sunset, 'HH:mm').local().format("HH:mm")) + ' ' + timezone + '</p>' +
                     '<p class="weather-box">' + svgWindDirection + 'Wind direction: ' + weather.windDirection + '&#176;' + '</p>' +
                     '<p class="weather-box">' + svgHumidity + 'Humidity: ' + weather.humidity + '</p>' +
@@ -221,17 +221,34 @@
             }).join('') + '</section>';
         }
 
+        function getForecast(userCity, userCountry, langApi) {
+            return fetch('https://api.weatherbit.io/v2.0/forecast/daily?city=' + userCity + ',' + userCountry + '&key=' + weatherApiKey + '&lang=' + langApi).then(function (response) {
+
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return Promise.reject(response)
+                }
+            }).then(function (data) {
+                const arrayForecasts = data.data;
+                showForecast(arrayForecasts)
+            })
+        }
+
         function getData(langApi) {
+
             return fetch('https://ipapi.co/json/').then(function (response) {
                 if (response.ok) {
                     return response.json();
                 } else {
                     return Promise.reject(response)
                 }
-            }).then(function (data, userCity) {
+            }).then(function (data) {
 
-                var userCity = data.city;
-                var userCountry = data.country;
+                let userCity = data.city;
+                let userCountry = data.country;
+
+                getForecast(userCity, userCountry)
 
                 return fetch('https://api.weatherbit.io/v2.0/current?city=' + userCity + ',' + userCountry + '&key=' + weatherApiKey + '&lang=' + langApi);
 
@@ -241,7 +258,7 @@
                 } else {
                     return Promise.reject(response);
                 }
-            }).then(function (data, userCity) {
+            }).then(function (data) {
 
                 const informations = data.data[0];
                 const weather = {
@@ -256,28 +273,6 @@
                     humidity: informations.rh
                 }
                 showTemperature(weather);
-                console.log('user', userCity)
-
-
-                return fetch('https://api.weatherbit.io/v2.0/forecast/daily?city=Raleigh,NC&key=' + weatherApiKey);
-
-            }).then(function (response) {
-
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    return Promise.reject(response);
-                }
-
-            }).then(function (data) {
-
-                const arrayForecasts = data.data;
-                //console.log(arrayForecasts)
-
-
-                showForecast(arrayForecasts)
-
-
 
             }).catch(function (err) {
                 app.innerHTML = '<p>Sorry, something bad happened</p>'
