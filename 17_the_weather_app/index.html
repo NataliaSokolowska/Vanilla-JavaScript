@@ -84,18 +84,39 @@
         }
 
         .forecast-wrapper {
-            width: 90vw;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
+            grid-gap: 30px;
             background: #ffffff;
             margin: 20px auto 0 auto;
             border-radius: 4px;
             box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 12px 0px;
             color: #000000;
+            padding: 20px;
+        }
+
+        .forecast-grid {
+            justify-self: center;
+            width: 100%;
+            border-width: 0 1px 0 0;
+            border-style: solid;
+            border-image: linear-gradient(180deg, hsla(0, 0%, 87.1%, 0) 0, #dedede 25%, #dedede 70%, hsla(0, 0%, 87.1%, 0) 85%, hsla(0, 0%, 87.1%, 0)) 1 100%;
+        }
+
+        .forecast-grid:nth-child(4n+0) {
+            border: none;
+        }
+
+        .forecast-date {
+            font-size: 18px;
         }
 
         .forecast-icon {
             width: 60px;
+        }
+
+        .forecast-info {
+            font-size: 14px;
         }
 
         @media (max-width: 768px) {
@@ -187,13 +208,13 @@
                 let far = ((forecast.temp * 9 / 5) + 32).toFixed(2);
 
                 var html =
-                    '<div class="grid">' +
-                    '<p class="forecast-box">' + dayDate + '</p>' +
+                    '<div class="forecast-grid">' +
+                    '<p class="forecast-box forecast-date">' + dayDate + '</p>' +
                     '<img alt="Weather API Day Thunderstorm with light rain" class="forecast-icon" src="https://www.weatherbit.io/static/img/icons/' + dayWeather + '.png">' +
-                    '<p class="forecast-box day-temp">' + dayAverageTemp + '&#176;C ' + '/ ' + far + '&#176;F' + '</p>' +
-                    '<p class="forecast-box day-temp">' + dayMaxTemp + '&#176;C ' + '/ ' + far + '&#176;F' + '</p>' +
-                    '<p class="forecast-box day-temp">' + dayMinTemp + '&#176;C ' + '/ ' + far + '&#176;F' + '</p>' +
-                    '<p class="weather-box">' + 'Humidity: ' + dayHumidity + '</p>' +
+                    '<p class="forecast-box forecast-info">' + 'Temp ' + dayAverageTemp + '&#176;C ' + '/ ' + far + '&#176;F' + '</p>' +
+                    '<p class="forecast-box forecast-info">' + 'Max ' + dayMaxTemp + '&#176;C ' + '/ ' + far + '&#176;F' + '</p>' +
+                    '<p class="forecast-box forecast-info">' + 'Min ' + dayMinTemp + '&#176;C ' + '/ ' + far + '&#176;F' + '</p>' +
+                    '<p class="weather-box forecast-info">' + 'Humidity: ' + dayHumidity + '</p>' +
                     '</div>'
 
                 return html;
