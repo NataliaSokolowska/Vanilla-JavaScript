@@ -77,6 +77,7 @@ function showTemperature(weather) {
       svgHumidity +
       humidityPl +
       weather.humidity +
+      percentageSymbol +
       "</p>" +
       "</section>" +
       "</section>" +
@@ -150,6 +151,7 @@ function showTemperature(weather) {
       svgHumidity +
       humidityEn +
       weather.humidity +
+      percentageSymbol +
       "</p>" +
       "</section>" +
       "</section>" +
@@ -220,6 +222,7 @@ function showForecast(arrayForecasts) {
           '<p class="forecast-box forecast-info">' +
           svgHumidity +
           dayHumidity +
+          percentageSymbol +
           "</p>" +
           "</section>";
 
