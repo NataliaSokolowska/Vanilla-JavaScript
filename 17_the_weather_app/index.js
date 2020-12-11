@@ -32,10 +32,12 @@ function showTemperature(weather) {
       "</section>" +
       "</section>" +
       '<section class="weather-info">' +
-      "<h3>" +
+      "<h2>" +
       todayWeatherPl +
+      "<span id='cityName'>" +
       weather.cityName +
-      "</h3>" +
+      "</span>" +
+      "</h2>" +
       '<section class="weather-info-box">' +
       '<p class="weather-box">' +
       svgFellTemp +
@@ -103,10 +105,12 @@ function showTemperature(weather) {
       "</section>" +
       "</section>" +
       '<section class="weather-info">' +
-      "<h3>" +
+      "<h2>" +
       todayWeatherEn +
+      "<span id='cityName'>" +
       weather.cityName +
-      "</h3>" +
+      "</span>" +
+      "</h2>" +
       '<section class="weather-info-box">' +
       '<p class="weather-box">' +
       svgFellTemp +
@@ -155,9 +159,14 @@ function showTemperature(weather) {
 
 function showForecast(arrayForecasts) {
   const weatherWrapp = document.querySelector(".weather-wrapper");
+  const daycityName = document.querySelector("#cityName").textContent;
 
   weatherWrapp.innerHTML +=
     '<section class="forecast-wrapper">' +
+    "<h2>" +
+    forecastNextDaysPl +
+    daycityName +
+    "</h2>" +
     arrayForecasts
       .map(function (forecast) {
         const dayAverageTemp = forecast.temp;
@@ -169,7 +178,8 @@ function showForecast(arrayForecasts) {
         let far = ((forecast.temp * 9) / 5 + 32).toFixed(2);
 
         var html =
-          '<div class="forecast-grid">' +
+          '<section class="forecast-grid">' +
+          '<section class="forecast-wrapper-box">' +
           '<p class="forecast-box forecast-date">' +
           dayDate +
           "</p>" +
@@ -204,7 +214,7 @@ function showForecast(arrayForecasts) {
           svgHumidity +
           dayHumidity +
           "</p>" +
-          "</div>";
+          "</section>";
 
         return html;
       })
