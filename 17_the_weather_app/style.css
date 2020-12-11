@@ -72,12 +72,15 @@ body {
 .weather-info {
   background: #fff;
   color: #000;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
   padding: 20px;
   margin-top: 20px;
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 12px 0px;
+}
+
+.weather-info-box {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .weather-box {

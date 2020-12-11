@@ -32,6 +32,11 @@ function showTemperature(weather) {
       "</section>" +
       "</section>" +
       '<section class="weather-info">' +
+      "<h3>" +
+      todayWeatherPl +
+      weather.cityName +
+      "</h3>" +
+      '<section class="weather-info-box">' +
       '<p class="weather-box">' +
       svgFellTemp +
       feelLikePl +
@@ -71,8 +76,9 @@ function showTemperature(weather) {
       humidityPl +
       weather.humidity +
       "</p>" +
+      "</section>" +
+      "</section>" +
       "</section>";
-    ("</section>");
   } else {
     app.innerHTML +=
       '<section class="weather-wrapper">' +
@@ -97,6 +103,11 @@ function showTemperature(weather) {
       "</section>" +
       "</section>" +
       '<section class="weather-info">' +
+      "<h3>" +
+      todayWeatherEn +
+      weather.cityName +
+      "</h3>" +
+      '<section class="weather-info-box">' +
       '<p class="weather-box">' +
       svgFellTemp +
       feelLikeEn +
@@ -136,8 +147,9 @@ function showTemperature(weather) {
       humidityEn +
       weather.humidity +
       "</p>" +
+      "</section>" +
+      "</section>" +
       "</section>";
-    ("</section>");
   }
 }
 
@@ -271,6 +283,7 @@ function getData(langApi) {
         windSpeed: informations.wind_spd,
         windDirection: informations.wind_cdir_full,
         humidity: informations.rh,
+        cityName: informations.city_name,
       };
       showTemperature(weather);
     })

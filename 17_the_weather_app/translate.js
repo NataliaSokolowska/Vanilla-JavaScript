@@ -1,3 +1,6 @@
+const todayWeatherPl = "Dzisiejsza pogoda dla ";
+const todayWeatherEn = "Today's Forecast for ";
+
 const degreesCelcSymbol = "&#176;C ";
 const degreeesFarenhSymbol = "&#176;F";
 const degreesSymbol = "&#176; ";
