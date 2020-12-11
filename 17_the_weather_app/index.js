@@ -160,11 +160,18 @@ function showTemperature(weather) {
 function showForecast(arrayForecasts) {
   const weatherWrapp = document.querySelector(".weather-wrapper");
   const daycityName = document.querySelector("#cityName").textContent;
+  let forecastTitle = "";
+
+  if (sessionStorage.getItem("language") === "pl") {
+    forecastTitle = forecastNextDaysPl;
+  } else {
+    forecastTitle = forecastNextDaysEn;
+  }
 
   weatherWrapp.innerHTML +=
     '<section class="forecast-wrapper">' +
     "<h2>" +
-    forecastNextDaysPl +
+    forecastTitle +
     daycityName +
     "</h2>" +
     '<section class="forecast-wrapper-boxes">' +
