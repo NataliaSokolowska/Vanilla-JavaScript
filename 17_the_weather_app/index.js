@@ -1,6 +1,10 @@
 const app = document.querySelector("#app"),
   weatherApiKey = "aac1b318a3af492ab3f510b8067ee931";
 
+let convertCelcToF = function (temp) {
+  return ((temp * 9) / 5 + 32).toFixed(2);
+};
+
 function showTemperature(weather) {
   let far = ((weather.temperature * 9) / 5 + 32).toFixed(2);
   const zone_name = moment.tz.guess();
@@ -23,7 +27,7 @@ function showTemperature(weather) {
       weather.temperature +
       degreesCelcSymbol +
       "/ " +
-      far +
+      convertCelcToF(weather.temperature) +
       degreeesFarenhSymbol +
       "</p>" +
       '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' +
@@ -45,7 +49,7 @@ function showTemperature(weather) {
       weather.apparentTemperature +
       degreesCelcSymbol +
       "/ " +
-      far +
+      convertCelcToF(weather.apparentTemperature) +
       degreeesFarenhSymbol +
       "</p>" +
       '<p class="weather-box">' +
@@ -97,7 +101,7 @@ function showTemperature(weather) {
       weather.temperature +
       degreesCelcSymbol +
       "/ " +
-      far +
+      convertCelcToF(weather.temperature) +
       degreeesFarenhSymbol +
       "</p>" +
       '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' +
@@ -119,7 +123,7 @@ function showTemperature(weather) {
       weather.apparentTemperature +
       degreesCelcSymbol +
       "/ " +
-      far +
+      convertCelcToF(weather.apparentTemperature) +
       degreeesFarenhSymbol +
       "</p>" +
       '<p class="weather-box">' +
@@ -185,7 +189,6 @@ function showForecast(arrayForecasts) {
         const dayMinTemp = forecast.low_temp;
         const dayHumidity = forecast.rh;
         const dayWeather = forecast.weather.icon;
-        let far = ((forecast.temp * 9) / 5 + 32).toFixed(2);
 
         var html =
           '<section class="forecast-grid">' +
@@ -200,7 +203,7 @@ function showForecast(arrayForecasts) {
           dayAverageTemp +
           degreesCelcSymbol +
           "/ " +
-          far +
+          convertCelcToF(dayAverageTemp) +
           degreeesFarenhSymbol +
           "</p>" +
           '<p class="forecast-box forecast-info">' +
@@ -208,7 +211,7 @@ function showForecast(arrayForecasts) {
           dayMinTemp +
           degreesCelcSymbol +
           "/ " +
-          far +
+          convertCelcToF(dayMinTemp) +
           degreeesFarenhSymbol +
           "</p>" +
           '<p class="forecast-box forecast-info">' +
@@ -216,7 +219,7 @@ function showForecast(arrayForecasts) {
           dayMaxTemp +
           degreesCelcSymbol +
           "/ " +
-          far +
+          convertCelcToF(dayMaxTemp) +
           degreeesFarenhSymbol +
           "</p>" +
           '<p class="forecast-box forecast-info">' +
