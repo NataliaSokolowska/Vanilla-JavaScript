@@ -98,7 +98,7 @@ body {
   padding: 20px;
 }
 
-.forecast-wrapper-box {
+.forecast-wrapper-boxes {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 30px;
@@ -139,5 +139,34 @@ body {
 @media (max-width: 768px) {
   .lang-wrapper {
     flex-direction: column;
+  }
+
+  .weather-actual-temp {
+    flex-direction: column;
+  }
+
+  .actual-temp {
+    font-size: 34px;
+  }
+
+  .weather-info-box {
+    grid-template-columns: 1fr;
+  }
+
+  .forecast-wrapper-boxes {
+    grid-template-columns: 1fr;
+  }
+
+  .forecast-grid {
+    border-width: 0 0 4px 0;
+    border-image: linear-gradient(
+        180deg,
+        hsla(0, 0%, 87.1%, 0) 0,
+        #dedede 25%,
+        #dedede 70%,
+        hsla(0, 0%, 87.1%, 0) 85%,
+        hsla(0, 0%, 87.1%, 0)
+      )
+      0 0 36% 0/0 0 3px 0 stretch;
   }
 }

@@ -167,6 +167,7 @@ function showForecast(arrayForecasts) {
     forecastNextDaysPl +
     daycityName +
     "</h2>" +
+    '<section class="forecast-wrapper-boxes">' +
     arrayForecasts
       .map(function (forecast) {
         const dayAverageTemp = forecast.temp;
@@ -179,7 +180,6 @@ function showForecast(arrayForecasts) {
 
         var html =
           '<section class="forecast-grid">' +
-          '<section class="forecast-wrapper-box">' +
           '<p class="forecast-box forecast-date">' +
           dayDate +
           "</p>" +
@@ -210,7 +210,7 @@ function showForecast(arrayForecasts) {
           far +
           degreeesFarenhSymbol +
           "</p>" +
-          '<p class="weather-box forecast-info">' +
+          '<p class="forecast-box forecast-info">' +
           svgHumidity +
           dayHumidity +
           "</p>" +
@@ -219,6 +219,7 @@ function showForecast(arrayForecasts) {
         return html;
       })
       .join("") +
+    "</section>" +
     "</section>";
 }
 
