@@ -6,6 +6,7 @@ function showTemperature(weather) {
   const zone_name = moment.tz.guess();
   const timezone = moment.tz(zone_name).zoneAbbr();
   const date = new Date();
+  const getHours = date.toLocaleTimeString();
 
   if (sessionStorage.getItem("language") === "pl") {
     app.innerHTML +=
@@ -15,9 +16,9 @@ function showTemperature(weather) {
       weather.timezone +
       "</h2>" +
       "<p class=weather-time>" +
-      date.toLocaleTimeString() +
-      "</p>";
-    '<section class="weather-actual-temp">' +
+      getHours +
+      "</p>" +
+      '<section class="weather-actual-temp">' +
       '<p class="weather-box actual-temp">' +
       weather.temperature +
       degreesCelcSymbol +
@@ -80,9 +81,9 @@ function showTemperature(weather) {
       weather.timezone +
       "</h2>" +
       "<p class=weather-time>" +
-      date.toLocaleTimeString();
-    +"</p>";
-    '<section class="weather-actual-temp">' +
+      getHours +
+      "</p>" +
+      '<section class="weather-actual-temp">' +
       '<p class="weather-box actual-temp">' +
       weather.temperature +
       degreesCelcSymbol +
