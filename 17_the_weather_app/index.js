@@ -5,33 +5,51 @@ let convertCelcToF = function (temp) {
   return ((temp * 9) / 5 + 32).toFixed(2);
 };
 
-function showTemperature(weather) {
-  let far = ((weather.temperature * 9) / 5 + 32).toFixed(2);
+let sanitizeHTML = function (str) {
+  var temp = document.createElement("div");
+  temp.textContent = str;
+  return temp.innerHTML;
+};
+
+function showTemperature(informations) {
   const zone_name = moment.tz.guess();
   const timezone = moment.tz(zone_name).zoneAbbr();
   const date = new Date();
   const getHours = date.toLocaleTimeString();
+
+  const weather = {
+    temperature: informations.temp,
+    apparentTemperature: informations.app_temp,
+    sunrise: informations.sunrise,
+    sunset: informations.sunset,
+    timezone: informations.timezone,
+    descriptionWeather: informations.weather.icon,
+    windSpeed: informations.wind_spd,
+    windDirection: informations.wind_cdir_full,
+    humidity: informations.rh,
+    cityName: informations.city_name,
+  };
 
   if (sessionStorage.getItem("language") === "pl") {
     app.innerHTML +=
       '<section class="weather-wrapper">' +
       '<section class="weather-localization">' +
       "<h2>" +
-      weather.timezone +
+      sanitizeHTML(weather.timezone) +
       "</h2>" +
       "<p class=weather-time>" +
       getHours +
       "</p>" +
       '<section class="weather-actual-temp">' +
       '<p class="weather-box actual-temp">' +
-      weather.temperature +
+      sanitizeHTML(weather.temperature) +
       degreesCelcSymbol +
       "/ " +
-      convertCelcToF(weather.temperature) +
+      sanitizeHTML(convertCelcToF(weather.temperature)) +
       degreeesFarenhSymbol +
       "</p>" +
       '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' +
-      weather.descriptionWeather +
+      sanitizeHTML(weather.descriptionWeather) +
       '.png">' +
       "</section>" +
       "</section>" +
@@ -39,48 +57,54 @@ function showTemperature(weather) {
       "<h2>" +
       todayWeatherPl +
       "<span id='cityName'>" +
-      weather.cityName +
+      sanitizeHTML(weather.cityName) +
       "</span>" +
       "</h2>" +
       '<section class="weather-info-box">' +
       '<p class="weather-box">' +
       svgFellTemp +
       feelLikePl +
-      weather.apparentTemperature +
+      sanitizeHTML(weather.apparentTemperature) +
       degreesCelcSymbol +
       "/ " +
-      convertCelcToF(weather.apparentTemperature) +
+      sanitizeHTML(convertCelcToF(weather.apparentTemperature)) +
       degreeesFarenhSymbol +
       "</p>" +
       '<p class="weather-box">' +
       svgSunrise +
       sunrisePL +
-      moment.utc(weather.sunrise, "HH:mm").local().format("HH:mm") +
+      moment
+        .utc(sanitizeHTML(weather.sunrise), "HH:mm")
+        .local()
+        .format("HH:mm") +
       " " +
       timezone +
       "</p>" +
       '<p class="weather-box">' +
       svgWindSpeed +
       windSpeedPl +
-      weather.windSpeed +
+      sanitizeHTML(weather.windSpeed) +
       speedSymbol +
       "</p > " +
       '<p class="weather-box">' +
       svgSunset +
       sunsetPl +
-      moment.utc(weather.sunset, "HH:mm").local().format("HH:mm") +
+      moment
+        .utc(sanitizeHTML(weather.sunset), "HH:mm")
+        .local()
+        .format("HH:mm") +
       " " +
       timezone +
       "</p>" +
       '<p class="weather-box">' +
       svgWindDirection +
       windDirectPl +
-      weather.windDirection +
+      sanitizeHTML(weather.windDirection) +
       "</p>" +
       '<p class="weather-box">' +
       svgHumidity +
       humidityPl +
-      weather.humidity +
+      sanitizeHTML(weather.humidity) +
       percentageSymbol +
       "</p>" +
       "</section>" +
@@ -91,21 +115,21 @@ function showTemperature(weather) {
       '<section class="weather-wrapper">' +
       '<section class="weather-localization">' +
       "<h2>" +
-      weather.timezone +
+      sanitizeHTML(weather.timezone) +
       "</h2>" +
       "<p class=weather-time>" +
       getHours +
       "</p>" +
       '<section class="weather-actual-temp">' +
       '<p class="weather-box actual-temp">' +
-      weather.temperature +
+      sanitizeHTML(weather.temperature) +
       degreesCelcSymbol +
       "/ " +
-      convertCelcToF(weather.temperature) +
+      sanitizeHTML(convertCelcToF(weather.temperature)) +
       degreeesFarenhSymbol +
       "</p>" +
       '<img alt="Weather API Day Thunderstorm with light rain" style="" src="https://www.weatherbit.io/static/img/icons/' +
-      weather.descriptionWeather +
+      sanitizeHTML(weather.descriptionWeather) +
       '.png">' +
       "</section>" +
       "</section>" +
@@ -113,48 +137,54 @@ function showTemperature(weather) {
       "<h2>" +
       todayWeatherEn +
       "<span id='cityName'>" +
-      weather.cityName +
+      sanitizeHTML(weather.cityName) +
       "</span>" +
       "</h2>" +
       '<section class="weather-info-box">' +
       '<p class="weather-box">' +
       svgFellTemp +
       feelLikeEn +
-      weather.apparentTemperature +
+      sanitizeHTML(weather.apparentTemperature) +
       degreesCelcSymbol +
       "/ " +
-      convertCelcToF(weather.apparentTemperature) +
+      sanitizeHTML(convertCelcToF(weather.apparentTemperature)) +
       degreeesFarenhSymbol +
       "</p>" +
       '<p class="weather-box">' +
       svgSunrise +
       sunriseEn +
-      moment.utc(weather.sunrise, "HH:mm").local().format("HH:mm") +
+      moment
+        .utc(sanitizeHTML(weather.sunrise), "HH:mm")
+        .local()
+        .format("HH:mm") +
       " " +
       timezone +
       "</p>" +
       '<p class="weather-box">' +
       svgWindSpeed +
       windSpeedEn +
-      weather.windSpeed +
+      sanitizeHTML(weather.windSpeed) +
       speedSymbol +
       "</p > " +
       '<p class="weather-box">' +
       svgSunset +
       sunsetEn +
-      moment.utc(weather.sunset, "HH:mm").local().format("HH:mm") +
+      moment
+        .utc(sanitizeHTML(weather.sunset), "HH:mm")
+        .local()
+        .format("HH:mm") +
       " " +
       timezone +
       "</p>" +
       '<p class="weather-box">' +
       svgWindDirection +
       windDirectEn +
-      weather.windDirection +
+      sanitizeHTML(weather.windDirection) +
       "</p>" +
       '<p class="weather-box">' +
       svgHumidity +
       humidityEn +
-      weather.humidity +
+      sanitizeHTML(weather.humidity) +
       percentageSymbol +
       "</p>" +
       "</section>" +
@@ -183,12 +213,12 @@ function showForecast(arrayForecasts) {
     '<section class="forecast-wrapper-boxes">' +
     arrayForecasts
       .map(function (forecast) {
-        const dayAverageTemp = forecast.temp;
-        const dayDate = forecast.valid_date;
-        const dayMaxTemp = forecast.high_temp;
-        const dayMinTemp = forecast.low_temp;
-        const dayHumidity = forecast.rh;
-        const dayWeather = forecast.weather.icon;
+        const dayAverageTemp = sanitizeHTML(forecast.temp);
+        const dayDate = sanitizeHTML(forecast.valid_date);
+        const dayMaxTemp = sanitizeHTML(forecast.high_temp);
+        const dayMinTemp = sanitizeHTML(forecast.low_temp);
+        const dayHumidity = sanitizeHTML(forecast.rh);
+        const dayWeather = sanitizeHTML(forecast.weather.icon);
 
         var html =
           '<section class="forecast-grid">' +
@@ -270,8 +300,8 @@ function getData(langApi) {
       }
     })
     .then(function (data) {
-      let userCity = data.city;
-      let userCountry = data.country;
+      let userCity = sanitizeHTML(data.city);
+      let userCountry = sanitizeHTML(data.country);
 
       setTimeout(function () {
         getForecast(userCity, userCountry);
@@ -297,19 +327,8 @@ function getData(langApi) {
     })
     .then(function (data) {
       const informations = data.data[0];
-      const weather = {
-        temperature: informations.temp,
-        apparentTemperature: informations.app_temp,
-        sunrise: informations.sunrise,
-        sunset: informations.sunset,
-        timezone: informations.timezone,
-        descriptionWeather: informations.weather.icon,
-        windSpeed: informations.wind_spd,
-        windDirection: informations.wind_cdir_full,
-        humidity: informations.rh,
-        cityName: informations.city_name,
-      };
-      showTemperature(weather);
+
+      showTemperature(informations);
     })
     .catch(function (err) {
       app.innerHTML = "<p>Sorry, something bad happened</p>";
