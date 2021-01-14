@@ -21,94 +21,104 @@
 </head>
 
 <body>
-
     <h1>Weather App - Plugin</h1>
-
     <div id="app">Checking the weather near you...</div>
 
     <script>
-        //
-        // Variables
-        //
 
-        // Store the weather API key to a variable for easier configuration
-        var apiKey = '1234abcd';
+        var getWeather = function (options) {
 
-        // Get the #app element
-        var app = document.querySelector('#app');
+            // Default settings
+            var defaults = {
+                apiKey: null,
+                selector: '#app',
+                convertTemp: true,
+                icon: true,
+                noWeather: 'Sorry! We have a little problem.',
+                description: 'It is currently {{temp}} degrees and {{conditions}} in {{city}}, {{state}}.'
+            };
 
+            var settings = Object.assign(defaults, options);
 
-        //
-        // Methods
-        //
+            var app = document.querySelector(settings.selector);
 
-        /**
-         * Sanitize and encode all HTML in a user-submitted string
-         * @param  {String} str  The user-submitted string
-         * @return {String} str  The sanitized string
-         */
-        var sanitizeHTML = function (str) {
-            var temp = document.createElement('div');
-            temp.textContent = str;
-            return temp.innerHTML;
-        };
-
-        /**
-         * Convert fahrenheit to celcius
-         * @param  {String} temp The temperature in celcius
-         * @return {Number}      The temperature in fahrenheit
-         */
-        var fToC = function (temp) {
-            return (parseFloat(temp) * 9 / 5) + 32;
-        };
-
-        /**
-         * Render the weather data into the DOM
-         * @param  {Object} weather The weather data object
-         */
-        var renderWeather = function (weather) {
-            app.innerHTML =
-                '<p>' +
-                '<img src="https://www.weatherbit.io/static/img/icons/' + weather.weather.icon + '.png">' +
-                '</p>' +
-                '<p>It is currently ' + fToC(sanitizeHTML(weather.temp)) + ' degrees and ' + sanitizeHTML(weather.weather.description).toLowerCase() + ' in ' + sanitizeHTML(weather.city_name) + ', ' + sanitizeHTML(weather.state_code) + '.</p>';
-        };
-
-        /**
-         * Display a message when no weather data can be found
-         */
-        var renderNoWeather = function () {
-            app.innerHTML = 'Unable to get weather data at this time. Sorry!';
-        };
-
-
-        //
-        // Inits
-        //
-
-        // Get the user's location by IP address
-        // Then, pass that into the weather API and get the current weather
-        fetch('https://ipapi.co/json').then(function (response) {
-            if (response.ok) {
-                return response.json();
-            } else {
-                return Promise.reject(response);
+            if (settings.apiKey == '') {
+                app.innerHTML = "Please add your api key to the code"
+                return;
             }
-        }).then(function (data) {
-            // Pass data into another API request
-            // Then, return the new Promise into the stream
-            return fetch('https://api.weatherbit.io/v2.0/current?key=' + apiKey + '&lat=' + data.latitude + '&lon=' + data.longitude);
-        }).then(function (response) {
-            if (response.ok) {
-                return response.json();
-            } else {
-                return Promise.reject(response);
-            }
-        }).then(function (data) {
-            // Pass the first weather item into a helper function to render the UI
-            renderWeather(data.data[0]);
-        }).catch(function () {
-            renderNoWeather();
+
+            var sanitizeHTML = function (str) {
+                var temp = document.createElement('div');
+                temp.textContent = str;
+                return temp.innerHTML;
+            };
+
+            var convertTemp = function (temp) {
+                const degreesCelcSymbol = "&#176;C ";
+                const degreeesFarenhSymbol = "&#176;F";
+
+                if (settings.convertTemp) {
+                    return ((parseFloat(temp) * 9 / 5) + 32 + degreeesFarenhSymbol);
+                }
+                return (temp + degreesCelcSymbol);
+            };
+
+            var getIcon = function (weather) {
+                if (!settings.icon) return '';
+
+                var html =
+                    '<p>' +
+                    '<img src="https://www.weatherbit.io/static/img/icons/' + weather.weather.icon + '.png">' +
+                    '</p>';
+
+                return html
+            };
+
+            var getDescription = function (weather) {
+                return settings.description
+                    .replace('{{temp}}', convertTemp(sanitizeHTML(weather.temp)))
+                    .replace('{{conditions}}', sanitizeHTML(weather.weather.description).toLowerCase())
+                    .replace('{{city}}', sanitizeHTML(weather.city_name))
+                    .replace('{{state}}', sanitizeHTML(weather.state_code))
+            };
+
+            var renderWeather = function (weather) {
+                app.innerHTML =
+                    getIcon(weather) +
+                    '<p> ' + getDescription(weather) + '</p>';
+            };
+
+            var renderNoWeather = function () {
+                app.innerHTML = settings.noWeather;
+            };
+
+            fetch('https://ipapi.co/json').then(function (response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return Promise.reject(response);
+                }
+            }).then(function (data) {
+                return fetch('https://api.weatherbit.io/v2.0/current?key=' + settings.apiKey + '&lat=' + data.latitude + '&lon=' + data.longitude);
+            }).then(function (response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return Promise.reject(response);
+                }
+            }).then(function (data) {
+                renderWeather(data.data[0]);
+            }).catch(function () {
+                renderNoWeather();
+            });
+        };
+
+        getWeather({
+            apiKey: 'aac1b318a3af492ab3f510b8067ee931',
+            icon: true,
+            convertTemp: false,
+            description: 'Today is {{conditions}}, {{temp}} degrees.'
+
         });
     </script>
 </body>
